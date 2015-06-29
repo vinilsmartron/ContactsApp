@@ -109,7 +109,8 @@ public class PeopleActivity extends ContactsActivity implements
 		ProviderStatusListener {
 
 	private static final String TAG = "PeopleActivity";
-
+	private ImageButton floatingActionButton;
+	private View floatingActionButtonContainer;
 	public static String EDITABLE_KEY = "search_contacts";
 	private static final String ENABLE_DEBUG_OPTIONS_HIDDEN_CODE = "debug debug!";
 
@@ -367,7 +368,6 @@ public class PeopleActivity extends ContactsActivity implements
 			mViewPagerTabs = portraitViewPagerTabs;
 		}
 		mViewPagerTabs.setViewPager(mTabPager);
-
 		final String FAVORITE_TAG = "tab-pager-favorite";
 		final String ALL_TAG = "tab-pager-all";
 		final String GROUPS_TAG = "tab-pager-groups";
@@ -424,10 +424,10 @@ public class PeopleActivity extends ContactsActivity implements
 				findViewById(R.id.toolbar_parent), getResources());
 
 		// Configure action button
-		final View floatingActionButtonContainer = findViewById(R.id.floating_action_button_container);
+		floatingActionButtonContainer = findViewById(R.id.floating_action_button_container);
 		ViewUtil.setupFloatingActionButton(floatingActionButtonContainer,
 				getResources());
-		final ImageButton floatingActionButton = (ImageButton) findViewById(R.id.floating_action_button);
+		floatingActionButton = (ImageButton) findViewById(R.id.floating_action_button);
 		floatingActionButton.setOnClickListener(this);
 
 		invalidateOptionsMenuIfNeeded();
@@ -739,6 +739,11 @@ public class PeopleActivity extends ContactsActivity implements
 				if (position == TabState.GROUPS) {
 					mGroupsFragment
 							.setAddAccountsVisibility(!areGroupWritableAccountsAvailable());
+				}
+				if (position == TabState.ALL) {
+					floatingActionButtonContainer.setVisibility(View.VISIBLE);
+				} else {
+					floatingActionButtonContainer.setVisibility(View.GONE);
 				}
 				invalidateOptionsMenu();
 			}
